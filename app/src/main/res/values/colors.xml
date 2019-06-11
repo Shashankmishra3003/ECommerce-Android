@@ -7,4 +7,8 @@
     <color name="slideActive">#F09DA7F5</color>
     <color name="slideInActive">#CFE3F3</color>
 
+    <color name="mainPageBackground">#D5F2F7</color>
+
+    <color name="black">#FA0D0E0E</color>
+
 </resources>

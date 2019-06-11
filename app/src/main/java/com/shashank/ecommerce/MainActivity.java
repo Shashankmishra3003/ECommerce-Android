@@ -10,6 +10,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
@@ -25,28 +28,20 @@ import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
+import android.widget.RelativeLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
+import com.shashank.ecommerce.adapter.CategoryRecyclerViewAdapter;
 import com.shashank.ecommerce.adapter.ImageSliderAdapter;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "MainActivity";
+
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListner;
     private Timer slideTimer;
@@ -63,6 +58,10 @@ public class MainActivity extends AppCompatActivity
             "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
     };
 
+    private static final int NUM_COLUMNS = 2;
+    private ArrayList<String> categoryImageUrls = new ArrayList<>();
+    private ArrayList<String> categoryNames = new ArrayList<>();
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -70,7 +69,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -136,6 +136,35 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        initCategoryData();
+    }
+
+    private void initCategoryData() {
+        Log.d(TAG, "initcategoryData: Getting category");
+        categoryImageUrls.add("https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg");
+        categoryNames.add("Category One");
+        categoryImageUrls.add("https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg");
+        categoryNames.add("Category Two");
+        categoryImageUrls.add("https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg");
+        categoryNames.add("Category Three");
+        categoryImageUrls.add("https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg");
+        categoryNames.add("Category Four");
+        categoryImageUrls.add("https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg");
+        categoryNames.add("Category Five");
+
+        initCategoryRecyclerView();
+    }
+
+    private void initCategoryRecyclerView() {
+        Log.d(TAG, "initCategoryRecyclerView: Initializing recycler view");
+        RecyclerView categoryRecyclerView = findViewById(R.id.recycler_view_category);
+        CategoryRecyclerViewAdapter categoryRecyclerViewAdapter =
+                new CategoryRecyclerViewAdapter(this,categoryNames,categoryImageUrls);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS,
+                LinearLayoutManager.VERTICAL);
+        categoryRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        categoryRecyclerView.setAdapter(categoryRecyclerViewAdapter);
     }
 
     public void imageSlideShow()
