@@ -1,7 +1,7 @@
 package com.shashank.ecommerce.model;
 
 public class Category {
-    String title,imageUrl;
+    private String title,imageUrl;
 
     public Category()
     {

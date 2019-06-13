@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.shashank.ecommerce.utilities.Common;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -33,6 +35,9 @@ public class SignInActivity extends AppCompatActivity {
     private final static  int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthListner;
+    private static View snackView;
+
+
 
     @Override
     protected void onStart() {
@@ -45,18 +50,19 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        snackView = findViewById(R.id.content);
         signInButton = findViewById(R.id.sign_in_button);
         mAuth = FirebaseAuth.getInstance();
-
-        mAuthListner = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null)
-                {
-                    startActivity(new Intent(SignInActivity.this,MainActivity.class));
+            mAuthListner = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    if (firebaseAuth.getCurrentUser() != null)
+                    {
+                        startActivity(new Intent(SignInActivity.this,MainActivity.class));
+                    }
                 }
-            }
-        };
+            };
+
 
     // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -91,7 +97,13 @@ public class SignInActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(SignInActivity.this,"Authentication Failed",Toast.LENGTH_LONG).show();
+                if(!Common.checkConnectivity(SignInActivity.this))
+                    Common.showLogInAlertDialog(SignInActivity.this);
+                else
+                {
+                    Snackbar snackbar = Snackbar.make(snackView,"Authentication Failed ",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
                 // ...
             }
         }
@@ -106,10 +118,15 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            if (Common.checkConnectivity(getBaseContext()))
+                                updateUI(user);
+                            else
+                                Common.showLogInAlertDialog(SignInActivity.this);
                         } else {
                             // If sign in fails, display a message to the user.
                             updateUI(null);
+                            Snackbar snackbar = Snackbar.make(snackView,"Authentication Failed ",Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     }
 
@@ -129,5 +146,18 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(new Intent(SignInActivity.this,MainActivity.class));
         }
     }
-}
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();;
+        finish();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
+
+
+}
