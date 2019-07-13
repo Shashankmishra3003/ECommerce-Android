@@ -9,6 +9,8 @@
 
     <color name="mainPageBackground">#D5F2F7</color>
 
-    <color name="black">#FA0D0E0E</color>
+    <color name="cartButton">#11F4031F</color>
+    <color name="ripple">#673AB7</color>
+    <color name="black">#0D0E0E</color>
 
 </resources>

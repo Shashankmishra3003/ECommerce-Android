@@ -20,4 +20,19 @@
     <string name="log_out">Log Out</string>
     <string name="categories">Categories</string>
     <string name="category_image">Category Image</string>
+    <string name="title_activity_product_list">ProductListActivity</string>
+    <string name="product_name">Product Name</string>
+    <string name="dollar">$</string>
+    <string name="product_description">Product Description</string>
+    <string name="hundred">100</string>
+    <string name="product_image">Product Image</string>
+    <string name="add_to_cart">ADD TO CART</string>
+
+    <string-array name="spinner_item">
+        <item>Size</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+    </string-array>
 </resources>

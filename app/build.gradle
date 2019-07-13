@@ -50,5 +50,10 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-}
 
+    //Elegant number button
+    implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
+
+    //Ripple for add to cart
+    implementation 'com.balysv:material-ripple:1.0.2'
+}

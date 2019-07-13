@@ -3,6 +3,9 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+<!--
+        Commented the line to avoid the bar above Toolbar to become white
         <item name="android:statusBarColor">@android:color/transparent</item>
+-->
     </style>
 </resources>

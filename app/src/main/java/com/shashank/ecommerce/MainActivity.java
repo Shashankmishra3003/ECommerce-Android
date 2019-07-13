@@ -1,5 +1,6 @@
 package com.shashank.ecommerce;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +26,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -37,6 +41,7 @@ import com.shashank.ecommerce.adapter.CategoryViewHolder;
 import com.shashank.ecommerce.adapter.ImageSliderAdapter;
 import com.shashank.ecommerce.model.Category;
 import com.shashank.ecommerce.utilities.Common;
+import com.shashank.ecommerce.utilities.ItemClickListner;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -51,6 +56,10 @@ public class MainActivity extends AppCompatActivity
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     RecyclerView categoryRecyclerView;
+    RelativeLayout sliderLayout,recyclerLayout;
+    ProgressBar progressBar;
+    DrawerLayout drawer;
+    FirebaseRecyclerAdapter<Category, CategoryViewHolder> firebaseRecyclerAdapter;
 
     private Timer slideTimer;
     private int current_position = 0;
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         if(Common.checkConnectivity(MainActivity.this))
         {
             loadRecyclerView();
+
         }
         else
             Common.showLogInAlertDialog(MainActivity.this);
@@ -94,6 +104,9 @@ public class MainActivity extends AppCompatActivity
         imageSlider = findViewById(R.id.image_slider);
         //dot layout
         dotLayout = findViewById(R.id.dot_container);
+        progressBar = findViewById(R.id.main_progress);
+        sliderLayout = findViewById(R.id.slider_container);
+        recyclerLayout = findViewById(R.id.recycler_layout);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -126,6 +139,7 @@ public class MainActivity extends AppCompatActivity
             //Setting the Image Slider
             loadImageSlider();
             initCategoryRecyclerView();
+
         }
         else
         {
@@ -141,23 +155,34 @@ public class MainActivity extends AppCompatActivity
                         .setQuery(databaseReference,Category.class)
                         .build();
 
-        FirebaseRecyclerAdapter<Category, CategoryViewHolder> firebaseRecyclerAdapter =
+         firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Category, CategoryViewHolder>(options) {
                     @NonNull
                     @Override
                     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                         View view = LayoutInflater.from(viewGroup.getContext())
                                 .inflate(R.layout.card_view_category,viewGroup,false);
+
                         return new CategoryViewHolder(view);
                     }
                     @Override
-                    protected void onBindViewHolder(@NonNull CategoryViewHolder holder, int position, @NonNull Category model) {
-                        holder.setCategory(getApplicationContext(),model.getTitle(),model.getImageUrl());
+                    protected void onBindViewHolder(@NonNull CategoryViewHolder holder, final int position, @NonNull Category model) {
+                        holder.setCategory(getApplicationContext(),model.getTitle(),model.getImageUrl(),progressBar,sliderLayout,recyclerLayout);
+                        holder.setItemClickListner(new ItemClickListner() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                Intent productList = new Intent(MainActivity.this,ProductListActivity.class);
+                                productList.putExtra("id",firebaseRecyclerAdapter.getRef(position).getKey());
+                                startActivity(productList);
+                            }
+                        });
                     }
 
                 };
         firebaseRecyclerAdapter.startListening();
         categoryRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
     }
     private void loadImageSlider()
     {
@@ -190,19 +215,14 @@ public class MainActivity extends AppCompatActivity
     }
     private void initCategoryRecyclerView() {
         Log.d(TAG, "initCategoryRecyclerView: Initializing recycler view");
-
         categoryRecyclerView = findViewById(R.id.recycler_view_category);
         categoryRecyclerView.setHasFixedSize(true);
-        /*CategoryRecyclerViewAdapter categoryRecyclerViewAdapter =
-                new CategoryRecyclerViewAdapter(this,categoryNames,categoryImageUrls);*/
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS,
                 LinearLayoutManager.VERTICAL);
         categoryRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-        //categoryRecyclerView.setAdapter(categoryRecyclerViewAdapter);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Category");
-
     }
 
     public void imageSlideShow()

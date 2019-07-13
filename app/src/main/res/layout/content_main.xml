@@ -8,15 +8,28 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame_progress">
+
+        <ProgressBar
+            android:id="@+id/main_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
         <RelativeLayout
             android:id="@+id/slider_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/image_slider"
@@ -55,13 +68,14 @@
 
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/recycler_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/slider_container">
+            app:layout_constraintTop_toBottomOf="@+id/slider_container"
+            android:visibility="invisible">
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
