@@ -92,6 +92,7 @@ public class ProductListActivity extends AppCompatActivity {
                             public void onItemClick(View v, int pos) {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("id",productId);
+                                bundle.putString("productId",firebaseRecyclerAdapter.getRef(position).getKey());
                                 bundle.putString("productName",model.getName());
                                 bundle.putString("productPrice",model.getPrice());
                                 bundle.putString("productDescription",model.getDescription());

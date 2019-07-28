@@ -2,10 +2,45 @@ package com.shashank.ecommerce.model;
 
 public class Product {
     String description,imageUrl,name,price,shippingPrice;
+    String userEmail,productId,quantity;
 
-    public Product()
+    public Product(String userEmail, String productId, String name, String price, String imageUrl, String quantity, String shippingPrice)
     {
+        this.userEmail = userEmail;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.quantity = quantity;
+        this.shippingPrice = shippingPrice;
+    }
 
+    public Product() {
+
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getDescription() {

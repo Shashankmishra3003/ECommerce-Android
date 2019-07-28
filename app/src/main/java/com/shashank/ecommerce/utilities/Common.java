@@ -4,14 +4,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.shashank.ecommerce.R;
 
-public class Common {
+public class Common extends AppCompatActivity {
+    Context context;
+
+    public Common(Context context)
+    {
+        this.context = context;
+    }
+
     public static boolean checkConnectivity(Context context)
     {
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -42,5 +53,16 @@ public class Common {
                 }).setNegativeButton("Cancel",null).show();
     }
 
-
+    public void addedToCartSnackBar(View view)
+    {
+        Snackbar snackbar = Snackbar
+                .make(view,"Product added to Cart",Snackbar.LENGTH_LONG)
+                .setAction("",null);
+        snackbar.setActionTextColor(Color.WHITE);
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.parseColor("#0394F4"));
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
+    }
 }

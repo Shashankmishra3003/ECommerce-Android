@@ -56,4 +56,8 @@ dependencies {
 
     //Ripple for add to cart
     implementation 'com.balysv:material-ripple:1.0.2'
+
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+
+    implementation 'com.github.andremion:counterfab:1.0.1'
 }
