@@ -15,6 +15,16 @@ public class Product {
         this.shippingPrice = shippingPrice;
     }
 
+    public Product(String productId, String name, String price, String imageUrl, String quantity, String shippingPrice)
+    {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.quantity = quantity;
+        this.shippingPrice = shippingPrice;
+    }
+
     public Product() {
 
     }

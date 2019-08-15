@@ -12,6 +12,10 @@
             android:id="@+id/nav_shopping_cart"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
             android:title="@string/shopping_cart" />
+        <item
+            android:id="@+id/nav_order_history"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="@string/order_history"/>
 
     </group>
 

@@ -27,7 +27,7 @@
 
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/materialRippleLayout"
+        android:id="@+id/materialRippleLayout_checkout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/cartButton"
@@ -64,14 +64,14 @@
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <TextView
-        android:id="@+id/subtotal"
+        android:id="@+id/od_subtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Subtotal ( "
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout"
+        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout_checkout"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -81,8 +81,8 @@
         android:text="2"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout"
-        app:layout_constraintStart_toEndOf="@+id/subtotal" />
+        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout_checkout"
+        app:layout_constraintStart_toEndOf="@+id/od_subtotal" />
 
     <TextView
         android:id="@+id/item_text"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout"
+        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout_checkout"
         app:layout_constraintStart_toEndOf="@+id/product_count" />
 
     <TextView
@@ -100,7 +100,7 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:text=" ) : $"
-        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout"
+        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout_checkout"
         app:layout_constraintStart_toEndOf="@+id/item_text" />
 
     <TextView
@@ -110,7 +110,7 @@
         android:text="100"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout"
+        app:layout_constraintBottom_toTopOf="@+id/materialRippleLayout_checkout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toEndOf="@+id/dollar" />
@@ -120,7 +120,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#F1F4F7"
-        app:layout_constraintBottom_toTopOf="@+id/subtotal"
+        app:layout_constraintBottom_toTopOf="@+id/od_subtotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"

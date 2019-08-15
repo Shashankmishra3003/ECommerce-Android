@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -44,6 +45,7 @@ import com.shashank.ecommerce.adapter.ImageSliderAdapter;
 import com.shashank.ecommerce.model.Category;
 import com.shashank.ecommerce.utilities.Common;
 import com.shashank.ecommerce.utilities.ItemClickListner;
+import com.squareup.picasso.Picasso;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,7 +63,12 @@ public class MainActivity extends AppCompatActivity
     RelativeLayout sliderLayout,recyclerLayout;
     ProgressBar progressBar;
     DrawerLayout drawer;
+    NavigationView navigationView;
     FirebaseRecyclerAdapter<Category, CategoryViewHolder> firebaseRecyclerAdapter;
+    GoogleSignInAccount acct;
+
+    TextView accountName, accountEmail;
+    ImageView accountImage;
 
     private Timer slideTimer;
     private int current_position = 0;
@@ -99,6 +106,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -110,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         sliderLayout = findViewById(R.id.slider_container);
         recyclerLayout = findViewById(R.id.recycler_layout);
 
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -138,16 +148,31 @@ public class MainActivity extends AppCompatActivity
 
         if(Common.checkConnectivity(MainActivity.this))
         {
+            //Adding data to the navbar
+            loadNavigationView();
             //Setting the Image Slider
             loadImageSlider();
-            initCategoryRecyclerView();
 
+            initCategoryRecyclerView();
         }
         else
         {
             Common.showLogInAlertDialog(MainActivity.this);
         }
 
+    }
+
+    private void loadNavigationView() {
+        View headerView = navigationView.getHeaderView(0);
+        accountName = headerView.findViewById(R.id.account_name);
+        accountEmail = headerView.findViewById(R.id.account_email);
+        accountImage = headerView.findViewById(R.id.user_image);
+
+        accountName.setText(acct.getDisplayName());
+        accountEmail.setText(acct.getEmail());
+        Picasso.get()
+                .load(acct.getPhotoUrl())
+                .into(accountImage);
     }
 
     private void loadRecyclerView()
@@ -326,6 +351,10 @@ public class MainActivity extends AppCompatActivity
         {
             Intent intent = new Intent(MainActivity.this,ShoppingCartActivity.class);
             startActivity(intent);
+        }
+        else if (id == R.id.nav_order_history)
+        {
+            startActivity(new Intent(MainActivity.this,OrderStatusActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

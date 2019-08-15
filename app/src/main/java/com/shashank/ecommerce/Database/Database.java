@@ -47,6 +47,34 @@ public class Database extends SQLiteAssetHelper {
         return result;
     }
 
+
+    public List<Product> getCartItemsWOEmail(String userEmail)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        String[] sqlSelect = {"UserEmail","ProductId","ProductName","Price","Image","Quantity","ShippingPrice"};
+        String sqlTable = "OrderDetail";
+
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db,sqlSelect,"UserEmail=?",new String[]{userEmail},null,null,null);
+
+        final List<Product> result = new ArrayList<>();
+        if(c.moveToFirst())
+        {
+            do{
+                result.add(new Product(
+                        c.getString(c.getColumnIndex("ProductId")),
+                        c.getString(c.getColumnIndex("ProductName")),
+                        c.getString(c.getColumnIndex("Price")),
+                        c.getString(c.getColumnIndex("Image")),
+                        c.getString(c.getColumnIndex("Quantity")),
+                        c.getString(c.getColumnIndex("ShippingPrice"))
+                ));
+            }while(c.moveToNext());
+        }
+        return result;
+    }
+
     public void addToCart(Product product)
     {
         SQLiteDatabase db = getReadableDatabase();

@@ -31,21 +31,6 @@
 
     </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
 
-    <!--<Button-->
-        <!--android:id="@+id/button_delete"-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="35dp"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/delete"-->
-        <!--android:textSize="14sp"-->
-        <!--android:backgroundTint="@color/colorPrimary"-->
-        <!--android:textColor="@color/white"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.802"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/elegantNumberButton"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintVertical_bias="0.929" />-->
 
 
     <TextView
